@@ -54,7 +54,7 @@ module.exports = (host, list) => {
         publish(json_attr_t, {
           姓名: name,
           户号: unique_id,
-          预存金额: item.yc,
+          预存电费: item.yc,
           更新时间: item.date.replace('截止到', '')
         })
 

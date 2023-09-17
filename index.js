@@ -38,7 +38,7 @@ const sleep = (s) => new Promise((resolve) => setTimeout(resolve, s * 1000));
 
   // 获取图片
   const imgHandle = await page.$('.code-mask img')
-  const errCount = 0
+  let errCount = 0
 
   const ocrRecognition = async () => {
     const base64 = await page.evaluate(img => img.getAttribute('src').replace("data:image/jpg;base64,", ""), imgHandle);

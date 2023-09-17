@@ -122,6 +122,7 @@ const sleep = (s) => new Promise((resolve) => setTimeout(resolve, s * 1000));
       console.log('切换到下一个')
       liHandle[nextIndex].click()
       await sleep(5)
+      await selectUser.click()
       await getUserInfo(nextIndex)
     }
   }

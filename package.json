@@ -1,0 +1,16 @@
+{
+  "name": "sgcc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ddddocr": "^1.0.0",
+    "mqtt": "^5.0.5",
+    "puppeteer": "^21.2.1"
+  }
+}

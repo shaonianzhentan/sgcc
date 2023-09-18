@@ -14,6 +14,7 @@ const sleep = (s) => new Promise((resolve) => setTimeout(resolve, s * 1000));
   // Launch the browser and open a new blank page
   const browser = await puppeteer.launch({
     headless: config.headless,
+    executablePath: '/usr/bin/chromium-browser',
     defaultViewport: { width: 1920, height: 1080 },
     args: ['--start-maximized'],
   });
@@ -81,8 +82,7 @@ const sleep = (s) => new Promise((resolve) => setTimeout(resolve, s * 1000));
   console.log('读取户号')
 
   const selectUser = await page.waitForXPath("//div[@class='el-dropdown']/span")
-  selectUser.click()
-
+  
   await sleep(5)
 
   // 获取数据
@@ -120,9 +120,10 @@ const sleep = (s) => new Promise((resolve) => setTimeout(resolve, s * 1000));
 
     if (nextIndex < liHandle.length) {
       console.log('切换到下一个')
+      await selectUser.click()
+      await sleep(5)
       liHandle[nextIndex].click()
       await sleep(5)
-      await selectUser.click()
       await getUserInfo(nextIndex)
     }
   }

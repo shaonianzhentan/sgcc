@@ -13,7 +13,7 @@ npm i --registry=https://registry.npmmirror.com
   "user": "用户名",
   "password": "密码",
   "host": "localhost",
-  "headless": true
+  "headless": "new"
 }
 ```
 运行

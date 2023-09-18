@@ -5,7 +5,7 @@
 
 安装依赖 `国内建议使用淘宝源`
 ```bash
-cnpm i
+npm i --registry=https://registry.npmmirror.com
 ```
 配置文件 `config.json`
 ```json

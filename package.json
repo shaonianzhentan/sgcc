@@ -11,6 +11,6 @@
   "dependencies": {
     "ddddocr": "^1.0.0",
     "mqtt": "^5.0.5",
-    "puppeteer": "^21.2.1"
+    "puppeteer-core": "^21.2.1"
   }
 }

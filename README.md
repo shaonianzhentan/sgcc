@@ -7,18 +7,15 @@
 ```bash
 npm i --registry=https://registry.npmmirror.com
 ```
-配置文件 `config.json`
-```json
-{
-  "user": "用户名",
-  "password": "密码",
-  "host": "localhost",
-  "headless": "new"
-}
-```
-运行
+
+后台运行
 ```bash
-node index
+node index user=用户名 password=密码 host=localhost
+```
+
+界面运行
+```bash
+node index user=用户名 password=密码 host=localhost headless=true
 ```
 
 # 参考项目

@@ -1,19 +1,37 @@
 const fs = require('fs')
-const puppeteer = require('puppeteer')
-const mqtt = require('mqtt')
+const puppeteer = require('puppeteer-core')
 const { default: DdddOcr } = require('ddddocr')
 const publishData = require('./publishData')
 
-const config = JSON.parse(fs.readFileSync('config.json', 'utf-8'))
 const list = []
+
+// 读取参数
+const config = new Map()
+const args = process.argv.splice(2)
+for(let val of args){
+  if (val.indexOf('=') > 0) {
+    const arr = val.split('=')
+    const key = arr[0].trim()
+    const value = arr[1].trim()
+    config.set(key, value)
+  }
+}
+
 const sleep = (s) => new Promise((resolve) => setTimeout(resolve, s * 1000));
-(async () => {
+(async () => {  
+  if (config.size < 2) {
+    return console.log('配置参数错误')
+  }
+
+  console.log(config)
+  const headless = config.get('headless') ? false : 'new'
 
   const LOGIN_URL = "https://www.95598.cn/osgweb/login"
 
   // Launch the browser and open a new blank page
   const browser = await puppeteer.launch({
-    headless: config.headless,
+    headless,
+    // executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
     executablePath: '/usr/bin/chromium-browser',
     defaultViewport: { width: 1920, height: 1080 },
     args: ['--start-maximized'],
@@ -34,8 +52,8 @@ const sleep = (s) => new Promise((resolve) => setTimeout(resolve, s * 1000));
   console.log('输入用户名和密码')
 
   // 输入用户名和密码
-  await page.type('.el-input__inner:first-child', config.user);
-  await page.type('.el-input__inner[type="password"]', config.password);
+  await page.type('.el-input__inner:first-child', config.get('user'));
+  await page.type('.el-input__inner[type="password"]', config.get('password'));
 
   // 获取图片
   const imgHandle = await page.$('.code-mask img')
@@ -60,7 +78,7 @@ const sleep = (s) => new Promise((resolve) => setTimeout(resolve, s * 1000));
       errCount += 1
       console.log('重新识别验证', code)
       imgHandle.click()
-      sleep(3)
+      await sleep(3)
       return await ocrRecognition()
     }
     return code
@@ -82,7 +100,7 @@ const sleep = (s) => new Promise((resolve) => setTimeout(resolve, s * 1000));
   console.log('读取户号')
 
   const selectUser = await page.waitForXPath("//div[@class='el-dropdown']/span")
-  
+
   await sleep(5)
 
   // 获取数据
@@ -133,7 +151,7 @@ const sleep = (s) => new Promise((resolve) => setTimeout(resolve, s * 1000));
   console.log(list)
 
   // 发送到HomeAssistant
-  await publishData(config.host, list)
+  await publishData(config.get('host'), list)
 
   await sleep(3)
 

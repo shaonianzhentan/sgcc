@@ -34,7 +34,7 @@ const sleep = (s) => new Promise((resolve) => setTimeout(resolve, s * 1000));
     // executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
     executablePath: '/usr/bin/chromium-browser',
     defaultViewport: { width: 1920, height: 1080 },
-    args: ['--start-maximized'],
+    args: ['--start-maximized', '--no-sandbox'],
   });
   const pages = await browser.pages();
   const page = pages[0]

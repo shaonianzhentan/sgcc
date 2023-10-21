@@ -20,10 +20,9 @@ console.log(config);
   const user = config.get('user')
   const host = config.get('host')
 
-  const topicPhone = 'sgcc/phone'
+  const topicCode = 'sgcc/code'
   const browser = new Browser()
   await browser.launch(headless)
-  await browser.sleep(5)
 
   // browser.getCode(user)
   // return
@@ -31,18 +30,21 @@ console.log(config);
   const client = mqtt.connect(`mqtt://${host}`);
   client.on("connect", async () => {
     console.log('订阅验证码接收主题')
-    client.subscribe(topicPhone)
+    client.subscribe(topicCode)
 
     browser.getCode(user)
   })
 
   client.on("message", async (topic, payload) => {
+    const message = payload.toString()
     // 等待验证码回传
-    if (topic == topicPhone) {
+    if (topic == topicCode && message.includes('【网上国网】')) {
+      // 提取验证码
+      const result = /\d{6}/.exec(message)
+      console.log(result)
+      const code = result[0]
 
-      await browser.login(payload.toString())
-
-      await sleep(10)
+      await browser.login(code)
 
       const list = await browser.getList()
       console.log(list)
@@ -50,10 +52,15 @@ console.log(config);
       if (Array.isArray(list) && list.length > 0) {
         // 发送到HomeAssistant
         await publishData(client, list)
-        await sleep(3)
+        await browser.sleep(3)
         await browser.close();
       }
     }
   })
+
+  // 10分钟没有处理完成，强制退出
+  setTimeout(() => {
+    process.exit(1)
+  }, 10 * 60 * 1000)
 
 })();

@@ -17,15 +17,18 @@ module.exports = class {
 
     const browser = await puppeteer.launch({
       headless: headless ? false : 'new',
-      executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
-      // executablePath: '/usr/bin/chromium-browser',
+      // executablePath: 'C:/Users/admin/AppData/Local/Google/Chrome/Application/chrome.exe',      
+      // executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
+      executablePath: '/usr/bin/chromium-browser',
       defaultViewport: { width: 1920, height: 1080 },
       args: ['--start-maximized', '--no-sandbox'],
     });
     this.browser = browser
+    sleep(5)
     const pages = await browser.pages();
     page = pages[0]
     await page.goto(LOGIN_URL);
+    await sleep(5)
   }
 
   // 手机号登录
@@ -57,7 +60,9 @@ module.exports = class {
     await sleep(1)
     console.log('开始登录')
 
-    await page.click('.el-button.el-button--primary');
+    await page.click('.demo-ruleForm:last-child .el-button');
+
+    await sleep(10)
   }
 
   // 读取信息
@@ -120,6 +125,6 @@ module.exports = class {
 
   // 关闭浏览器
   close() {
-    browser.close();
+    this.browser.close();
   }
 }

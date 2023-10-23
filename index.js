@@ -22,11 +22,12 @@ console.log(config);
 
   const topicCode = 'sgcc/code'
   const browser = new Browser()
+  console.log('启动浏览器')
   await browser.launch(headless)
 
   // browser.getCode(user)
   // return
-
+  console.log('连接MQTT')
   const client = mqtt.connect(`mqtt://${host}`);
   client.on("connect", async () => {
     console.log('订阅验证码接收主题')

@@ -22,7 +22,6 @@ console.log(config);
 
   const topicCode = 'sgcc/code'
   const browser = new Browser()
-  console.log('启动浏览器')
   await browser.launch(headless)
 
   // browser.getCode(user)

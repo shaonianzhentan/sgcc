@@ -14,7 +14,7 @@ module.exports = class {
 
   // 打开登录页面
   async launch(headless) {
-
+    console.log('启动浏览器')
     const browser = await puppeteer.launch({
       headless: headless ? false : 'new',
       // executablePath: 'C:/Users/admin/AppData/Local/Google/Chrome/Application/chrome.exe',      
@@ -25,8 +25,10 @@ module.exports = class {
     });
     this.browser = browser
     sleep(5)
+    console.log('获取选项卡')
     const pages = await browser.pages();
     page = pages[0]
+    console.log('登录页面跳转')
     await page.goto(LOGIN_URL);
     await sleep(5)
   }

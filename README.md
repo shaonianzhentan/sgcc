@@ -10,6 +10,11 @@
 npm i --registry=https://registry.npmmirror.com
 ```
 
+可能会出现浏览器版本不兼容的情况，树莓派可以安装指定版本
+```bash
+npm install puppeteer-core@21.3.6
+```
+
 后台运行
 ```bash
 node index user=手机号码 host=localhost

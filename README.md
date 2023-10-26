@@ -25,6 +25,7 @@ node index user=手机号码 host=localhost
 node index user=手机号码 host=localhost headless=true
 ```
 
-# 参考项目
+# 相关项目
 
 - https://github.com/renhai-lab/sgcc_electricity
+- https://pptr.dev
